@@ -1,22 +1,21 @@
-.App {
-  text-align: center;
+.system-visualizer {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+  outline: 1px dashed;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+/*
+*/
+svg.star {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 220px;
+  height: 220px;
+  opacity: 0.4;
+  /*
+  fill: orangered;
+  */
 }
