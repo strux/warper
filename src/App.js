@@ -20,6 +20,8 @@ function App() {
         <Grid item xs={10}>
           <Box>
             <Button variant="outlined">Launch Probe</Button>
+            <Button variant="outlined" color="primary">Launch Probe</Button>
+            <Button variant="outlined" color="secondary">Launch Probe</Button>
             <p>Here is some text</p>
           </Box>
         </Grid>

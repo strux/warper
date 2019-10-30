@@ -5,12 +5,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import cyan from '@material-ui/core/colors/cyan';
 
 const theme = createMuiTheme({
   typography: {
     fontFamily: '"Share Tech Mono", monospace',
   },
   palette: {
+    primary: cyan,
     type: 'dark',
   },
 });
