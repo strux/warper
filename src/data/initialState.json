@@ -19,6 +19,7 @@
   ],
   "planets": [
     {
+      "id": 1,
       "size": 80,
       "location": 100,
       "resources": {
@@ -26,6 +27,7 @@
       }
     },
     {
+      "id": 2,
       "size": 50,
       "location": 300,
       "resources": {

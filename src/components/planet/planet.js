@@ -15,9 +15,8 @@ export default function Planet({ location, size, drones, dispatchDrone }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleItemClick = (idx) => {
-    console.log(idx);
-    dispatchDrone(idx, location);
+  const handleItemClick = (id) => {
+    dispatchDrone(id);
     handleClose();
   };
 
@@ -25,10 +24,10 @@ export default function Planet({ location, size, drones, dispatchDrone }) {
     setAnchorEl(null);
   };
 
-  const probeMessage = (drone, idx) => {
-    if (drone.target === location) return `drone ${idx} en route`;
-    else if (drone.target === null) return `Launch drone ${idx}`;
-    else if (drone.target !== null) return `Redirect drone ${idx}`;
+  const probeMessage = (drone) => {
+    if (drone.target === location) return `drone ${drone.id} en route`;
+    else if (drone.target === null) return `Launch drone ${drone.id}`;
+    else if (drone.target !== null) return `Redirect drone ${drone.id}`;
   }
 
   return (
@@ -45,9 +44,9 @@ export default function Planet({ location, size, drones, dispatchDrone }) {
         open={open}
         onClose={handleClose}
       >
-        {drones.map((drone, idx) => (
-          <MenuItem key={idx} onClick={(idx) => handleItemClick(idx)}>
-            {probeMessage(drone, idx)}
+        {drones.map(drone => (
+          <MenuItem key={drone.id} onClick={() => handleItemClick(drone.id)}>
+            {probeMessage(drone)}
           </MenuItem>
         ))}
       </Menu>

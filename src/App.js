@@ -21,10 +21,14 @@ function App() {
     }
   }
 
-  const setTarget = (actor, target) => {
-    return {
-      ...actor,
-      target: target
+  const setTarget = (actor, id, target) => {
+    if (actor.id === id) {
+      return {
+        ...actor,
+        target: target
+      }
+    } else {
+      return actor;
     }
   }
 
@@ -33,10 +37,10 @@ function App() {
     let newState;
 
     switch(action.type) {
-      case 'launch-drone':
+      case 'dispatch-drone':
         newState = {
           player,
-          drones: state.drones.map((p) => setTarget(p, action.target)),
+          drones: state.drones.map((d) => setTarget(d, action.id, action.target)),
           planets
         };
         return newState;
@@ -67,10 +71,12 @@ function App() {
         <Grid item xs={3}>
           <Box className="system-visualizer">
             <Brightness1 className="star" />
-            { state.planets.map((planet, idx) =>
-              <Planet key={idx}
-                      dispatchDrone={(index, target) => dispatch({ type: 'launch-drone', index: index, target: target })}
-                      drones={state.drones} {...planet} />) }
+            { state.planets.map(planet =>
+              <Planet key={planet.id}
+                      dispatchDrone={id => dispatch({ type: 'dispatch-drone', id: id, target: planet.location })}
+                      drones={state.drones}
+                      {...planet} />)
+            }
             <Player drones={state.drones} {...state.player} />
           </Box>
         </Grid>
