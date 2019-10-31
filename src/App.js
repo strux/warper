@@ -147,6 +147,14 @@ function App() {
           <Box>
             <Button variant="outlined" color="primary" disabled={!canWarp(state.player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
           </Box>
+          <Box>
+            { state.drones.map(drone =>
+              <Button variant="outlined"
+                disabled={drone.location === state.player.location}
+                onClick={() => dispatch({ type: 'dispatch-drone', id: drone.id, target: state.player.location })}>
+                {`Recall Drone ${drone.id}`}</Button>
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Container>
