@@ -74,17 +74,25 @@ function App() {
     return planets;
   }
 
+  const warpDrones = (drones, player, newLocation) => {
+    return drones
+      .filter(d => d.location === player.location)
+      .map(d => ({ ...d, location: newLocation }));
+  }
+
   const reducer = (state, action) => {
-    const { player, planets } = state;
+    const { player, drones, planets } = state;
     let newState;
 
     switch(action.type) {
       case 'warp':
         if (canWarp(player)) {
+          const playerLocation = getRandomInt(50, 500);
           newState = {
             ...state,
-            player: {...player, location: getRandomInt(50, 500), fuel: (player.fuel - player.warpCost)},
-            planets: generatePlanets()
+            drones: warpDrones(drones, player, playerLocation),
+            player: {...player, location: playerLocation, fuel: (player.fuel - player.warpCost)},
+            planets: generatePlanets(),
           };
           return newState;
         }
