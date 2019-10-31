@@ -1,15 +1,22 @@
 {
-  "warps": 0,
   "player": {
     "location": 200,
-    "probes": [
-      {
-        "speed": 5,
-        "location": 200,
-        "target": null
-      }
-    ]
+    "warps": 0
   },
+  "drones": [
+    {
+      "id": 1,
+      "speed": 5,
+      "location": 200,
+      "target": null
+    },
+    {
+      "id": 2,
+      "speed": 5,
+      "location": 200,
+      "target": null
+    }
+  ],
   "planets": [
     {
       "size": 80,

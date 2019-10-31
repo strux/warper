@@ -10,8 +10,9 @@ svg.star {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 50%);
-  width: 220px;
-  height: 220px;
+  transform: translate(-50%, 86%);
+  width: 800px;
+  height: 800px;
   opacity: 0.4;
+  fill: #FF9800;
 }

@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import './planet.css';
 
-export default function Planet({ location, size, probes, dispatchProbe }) {
+export default function Planet({ location, size, drones, dispatchDrone }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -17,7 +17,7 @@ export default function Planet({ location, size, probes, dispatchProbe }) {
 
   const handleItemClick = (idx) => {
     console.log(idx);
-    dispatchProbe(idx, location);
+    dispatchDrone(idx, location);
     handleClose();
   };
 
@@ -25,10 +25,10 @@ export default function Planet({ location, size, probes, dispatchProbe }) {
     setAnchorEl(null);
   };
 
-  const probeMessage = (probe, idx) => {
-    if (probe.target === location) return `Probe ${idx} en route`;
-    else if (probe.target === null) return `Launch Probe ${idx}`;
-    else if (probe.target !== null) return `Redirect Probe ${idx}`;
+  const probeMessage = (drone, idx) => {
+    if (drone.target === location) return `drone ${idx} en route`;
+    else if (drone.target === null) return `Launch drone ${idx}`;
+    else if (drone.target !== null) return `Redirect drone ${idx}`;
   }
 
   return (
@@ -45,9 +45,9 @@ export default function Planet({ location, size, probes, dispatchProbe }) {
         open={open}
         onClose={handleClose}
       >
-        {probes.map((probe, idx) => (
+        {drones.map((drone, idx) => (
           <MenuItem key={idx} onClick={(idx) => handleItemClick(idx)}>
-            {probeMessage(probe, idx)}
+            {probeMessage(drone, idx)}
           </MenuItem>
         ))}
       </Menu>

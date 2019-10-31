@@ -1,4 +1,4 @@
-svg.probe {
+svg.drone {
   width: 15px;
   height: 15px;
   position: absolute;
@@ -6,10 +6,10 @@ svg.probe {
   transform-origin: center;
   transform: translate(-50%, 50%);
 }
-svg.probe.down {
+svg.drone.down {
   transform: translate(-50%, 50%) rotate(180deg);;
 }
 
-svg.probe.docked {
+svg.drone.docked {
   display: none;
 }

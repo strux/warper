@@ -21,7 +21,7 @@ function App() {
     }
   }
 
-  const setActorTarget = (actor, target) => {
+  const setTarget = (actor, target) => {
     return {
       ...actor,
       target: target
@@ -33,27 +33,21 @@ function App() {
     let newState;
 
     switch(action.type) {
-      case 'launch-probe':
-        console.log(action.target);
+      case 'launch-drone':
         newState = {
-          player: {
-            ...player,
-            probes: player.probes.map((p) => setActorTarget(p, action.target)),
-          },
+          player,
+          drones: state.drones.map((p) => setTarget(p, action.target)),
           planets
         };
         return newState;
       default:
         newState = {
-          player: {
-            ...player,
-            probes: player.probes.map(moveActor),
-          },
+          player,
+          drones: state.drones.map(moveActor),
           planets
         };
         return newState;
     }
-
   }
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -75,9 +69,9 @@ function App() {
             <Brightness1 className="star" />
             { state.planets.map((planet, idx) =>
               <Planet key={idx}
-                      dispatchProbe={(index, target) => dispatch({ type: 'launch-probe', index: index, target: target })}
-                      probes={state.player.probes} {...planet} />) }
-            <Player {...state.player} />
+                      dispatchDrone={(index, target) => dispatch({ type: 'launch-drone', index: index, target: target })}
+                      drones={state.drones} {...planet} />) }
+            <Player drones={state.drones} {...state.player} />
           </Box>
         </Grid>
         <Grid item xs={9}>
