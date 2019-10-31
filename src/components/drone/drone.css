@@ -1,15 +1,20 @@
-svg.drone {
+.drone {
+  position: absolute;
   width: 15px;
   height: 15px;
-  position: absolute;
   left: 50%;
   transform-origin: center;
-  transform: translate(-50%, 50%);
-}
-svg.drone.down {
-  transform: translate(-50%, 50%) rotate(180deg);;
+  transform: translate(-77%, 21%);
 }
 
-svg.drone.docked {
+.drone.docked {
   display: none;
 }
+
+.drone svg {
+  transform-origin: center;
+}
+.drone.down svg {
+  transform: rotate(180deg);
+}
+

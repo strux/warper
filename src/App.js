@@ -58,7 +58,6 @@ function App() {
         const [p1, p2] = planetRange(planet);
         return ((c1 >= p1 && c1 <= p2) || (c2 >= p1 && c2 <= p2))
       }, false);
-      console.log(overlap);
       return overlap.some(o => o === true);
     }
 
