@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import './planet.css';
 
-export default function Planet({ location, size, drones, dispatchDrone }) {
+export default function Planet({ id, location, size, drones, dispatchDrone }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -32,7 +32,8 @@ export default function Planet({ location, size, drones, dispatchDrone }) {
 
   return (
     <div>
-      <IconButton className="planet"
+      <IconButton id={id}
+                  className="planet"
                   style={{ bottom: location, width: size, height: size }}
                   onClick={handleClick}>
         <Brightness1 />

@@ -36,15 +36,43 @@ function App() {
     }
   }
 
-  const generateSystem = () => {
-    const system = new Array(getRandomInt(1, maxPlanets))
-      .fill()
-      .map((p, idx) => ({
-        id: idx,
-        size: getRandomInt(minPlanetSize, maxPlanetSize),
-        location: getRandomInt(minLocation, maxLocation)
-      }));
-    return system;
+  const generatePlanets = (planetCount = getRandomInt(1, maxPlanets)) => {
+    const planets = [];
+
+    const generatePlanet = () => {
+      const size = getRandomInt(minPlanetSize, maxPlanetSize);
+      return {
+          size: size,
+          location: getRandomInt(minLocation, maxLocation - (size / 2))
+      }
+    };
+
+    const planetRange = planet => {
+      const radius = planet.size / 2;
+      return [planet.location - radius, planet.location + radius];
+    }
+
+    const overlap = candidate => {
+      const overlap = planets.map(planet => {
+        const [c1, c2] = planetRange(candidate);
+        const [p1, p2] = planetRange(planet);
+        return ((c1 >= p1 && c1 <= p2) || (c2 >= p1 && c2 <= p2))
+      }, false);
+      console.log(overlap);
+      return overlap.some(o => o === true);
+    }
+
+    let id = 1;
+    while (planets.length <= planetCount) {
+      let candidate = generatePlanet();
+      if (!overlap(candidate)) {
+        candidate.id = id;
+        planets.push(candidate);
+        id++;
+      }
+    }
+
+    return planets;
   }
 
   const reducer = (state, action) => {
@@ -57,7 +85,7 @@ function App() {
           newState = {
             ...state,
             player: {...player, location: getRandomInt(50, 500), fuel: (player.fuel - player.warpCost)},
-            planets: generateSystem()
+            planets: generatePlanets()
           };
           return newState;
         }
