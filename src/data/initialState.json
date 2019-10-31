@@ -1,0 +1,29 @@
+{
+  "warps": 0,
+  "player": {
+    "location": 200,
+    "probes": [
+      {
+        "speed": 5,
+        "location": 200,
+        "target": null
+      }
+    ]
+  },
+  "planets": [
+    {
+      "size": 80,
+      "location": 100,
+      "resources": {
+        "fuel": 10
+      }
+    },
+    {
+      "size": 50,
+      "location": 300,
+      "resources": {
+        "fuel": 10
+      }
+    }
+  ]
+}

@@ -1,12 +1,11 @@
 .system-visualizer {
   position: relative;
   overflow: hidden;
+  width: 100px;
   height: 500px;
   outline: 1px solid;
 }
 
-/*
-*/
 svg.star {
   position: absolute;
   bottom: 0;
@@ -15,7 +14,4 @@ svg.star {
   width: 220px;
   height: 220px;
   opacity: 0.4;
-  /*
-  fill: orangered;
-  */
 }

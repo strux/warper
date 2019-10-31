@@ -1,0 +1,15 @@
+svg.probe {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, 50%);
+}
+svg.probe.down {
+  transform: translate(-50%, 50%) rotate(180deg);;
+}
+
+svg.probe.docked {
+  display: none;
+}
