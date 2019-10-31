@@ -1,13 +1,17 @@
 import React, { useReducer } from 'react';
 import initialState from './data/initialState.json';
-import { Container, Grid, Box } from '@material-ui/core';
+import { Container, Grid, Box, Button, CircularProgress } from '@material-ui/core';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import Planet from './components/planet/planet.js';
 import Player from './components/player/player.js';
 import useInterval from './hooks/use-interval.js';
+import { getRandomInt } from './utils.js';
+import { maxPlanets, minPlanetSize, maxPlanetSize, minLocation, maxLocation } from './constants.js';
 import './App.css';
 
 function App() {
+
+  const canWarp = (player) => player.fuel >= player.warpCost
 
   const moveActor = actor => {
     if (!actor.target) return actor;
@@ -32,11 +36,32 @@ function App() {
     }
   }
 
+  const generateSystem = () => {
+    const system = new Array(getRandomInt(1, maxPlanets))
+      .fill()
+      .map((p, idx) => ({
+        id: idx,
+        size: getRandomInt(minPlanetSize, maxPlanetSize),
+        location: getRandomInt(minLocation, maxLocation)
+      }));
+    return system;
+  }
+
   const reducer = (state, action) => {
     const { player, planets } = state;
     let newState;
 
     switch(action.type) {
+      case 'warp':
+        if (canWarp(player)) {
+          newState = {
+            ...state,
+            player: {...player, location: getRandomInt(50, 500), fuel: (player.fuel - player.warpCost)},
+            planets: generateSystem()
+          };
+          return newState;
+        }
+        return state;
       case 'dispatch-drone':
         newState = {
           player,
@@ -82,6 +107,10 @@ function App() {
         </Grid>
         <Grid item xs={9}>
           <Box>
+            <CircularProgress variant="static" value={state.player.fuel / state.player.fuelCapacity * 100} />
+          </Box>
+          <Box>
+            <Button variant="outlined" color="primary" disabled={!canWarp(state.player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
           </Box>
         </Grid>
       </Grid>

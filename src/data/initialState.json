@@ -1,7 +1,12 @@
 {
   "player": {
     "location": 200,
-    "warps": 0
+    "warps": 0,
+    "warpCost": 10,
+    "fuel": 100,
+    "fuelCapacity": 100,
+    "droneParts": 100,
+    "dronePartsCapacity": 100
   },
   "drones": [
     {
