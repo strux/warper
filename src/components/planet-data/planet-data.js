@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, Button, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
+import './planet-data.css';
 
 const droneStatus = (drone, location) => {
   if (drone.target === location) return 'enroute';
@@ -29,16 +30,18 @@ export default function PlanetData({ planet, drones, dispatchDrone }) {
           </TableRow>
         </TableBody>
       </Table>
-      { drones.map(drone =>
-        <Badge  key={drone.id} color="primary" badgeContent={drone.id}>
-          <Button
-            color={buttonColor(drone, planet.location)}
-            variant="outlined"
-            onClick={() => dispatchDrone(drone.id, planet.location)}>
-            {droneStatus(drone, planet.location)}
-          </Button>
-        </Badge>
-      )}
+      <div className="drone-controls">
+        { drones.map(drone =>
+          <Badge  key={drone.id} color="primary" badgeContent={drone.id}>
+            <Button
+              color={buttonColor(drone, planet.location)}
+              variant="outlined"
+              onClick={() => dispatchDrone(drone.id, planet.location)}>
+              {droneStatus(drone, planet.location)}
+            </Button>
+          </Badge>
+        )}
+      </div>
     </div>
   );
 }

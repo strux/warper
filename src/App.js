@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import initialState from './data/initialState.json';
-import { Container, Grid, Box, Button, CircularProgress } from '@material-ui/core';
+import { Badge, Button, CircularProgress } from '@material-ui/core';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import Planet from './components/planet/planet.js';
 import PlanetData from './components/planet-data/planet-data.js';
@@ -131,47 +131,46 @@ function App() {
   }, 1000);
 
   return (
-    <Container maxWidth="sm">
-      <Grid container
-            direction="row"
-            justify="center"
-            alignItems="flex-start"
-            spacing={2}
-      >
-        <Grid item xs={3}>
-          <Box className="system-visualizer">
-            <Brightness1 className="star" />
-            { planets.map(planet =>
-              <Planet key={planet.id}
-                      selectPlanet={() => dispatch({ type: 'select-planet', id: planet.id })}
-                      drones={drones}
-                      {...planet} />)
-            }
-            <Player drones={drones} {...player} />
-          </Box>
-        </Grid>
-        <Grid item xs={9}>
-          <Box>
-            <CircularProgress variant="static" value={player.fuel / player.fuelCapacity * 100} />
-          </Box>
-          <Box>
+    <div className="container">
+      <div className="system-visualizer">
+        <Brightness1 className="star" />
+        { planets.map(planet =>
+          <Planet key={planet.id}
+                  selectPlanet={() => dispatch({ type: 'select-planet', id: planet.id })}
+                  drones={drones}
+                  {...planet} />)
+        }
+        <Player drones={drones} {...player} />
+      </div>
+      <div className="controls">
+        <div className="gauges">
+          <div className="warp">
+            <CircularProgress className="gauge" variant="static" value={player.fuel / player.fuelCapacity * 100} />
             <Button variant="outlined" color="primary" disabled={!canWarp(player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
-          </Box>
-          <Box>
-            <PlanetData planet={selectedPlanet} drones={drones} dispatchDrone={(id, target) => dispatch({ type: 'dispatch-drone', id: id, target: target })}/>
-          </Box>
-          <Box>
-            { drones.map(drone =>
+          </div>
+          <div className="warp">
+            <CircularProgress className="gauge" variant="static" value={player.fuel / player.fuelCapacity * 100} />
+            <Button variant="outlined" color="primary" disabled={!canWarp(player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
+          </div>
+          <div className="warp">
+            <CircularProgress className="gauge" variant="static" value={player.fuel / player.fuelCapacity * 100} />
+            <Button variant="outlined" color="primary" disabled={!canWarp(player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
+          </div>
+        </div>
+        <PlanetData planet={selectedPlanet} drones={drones} dispatchDrone={(id, target) => dispatch({ type: 'dispatch-drone', id: id, target: target })}/>
+        <div className="recall">
+          { drones.map(drone =>
+            <Badge  key={drone.id} color="primary" badgeContent={drone.id}>
               <Button key={drone.id}
                 variant="outlined"
                 disabled={drone.location === player.location}
                 onClick={() => dispatch({ type: 'dispatch-drone', id: drone.id, target: player.location })}>
-                {`Recall Drone ${drone.id}`}</Button>
-            )}
-          </Box>
-        </Grid>
-      </Grid>
-    </Container>
+                {'Recall'}</Button>
+            </Badge>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
