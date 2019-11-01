@@ -3,6 +3,7 @@ import initialState from './data/initialState.json';
 import { Container, Grid, Box, Button, CircularProgress } from '@material-ui/core';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import Planet from './components/planet/planet.js';
+import PlanetData from './components/planet-data/planet-data.js';
 import Player from './components/player/player.js';
 import useInterval from './hooks/use-interval.js';
 import { getRandomInt } from './utils.js';
@@ -34,7 +35,7 @@ const setTarget = (actor, id, target) => {
   }
 }
 
-const generatePlanets = (planetCount = getRandomInt(1, maxPlanets)) => {
+const generatePlanets = (player, planetCount = getRandomInt(1, maxPlanets)) => {
   const planets = [];
 
   const generatePlanet = () => {
@@ -64,11 +65,13 @@ const generatePlanets = (planetCount = getRandomInt(1, maxPlanets)) => {
     let candidate = generatePlanet();
     if (!overlap(candidate)) {
       candidate.id = id;
+      candidate.distance = Math.abs(player.location - candidate.location);
       planets.push(candidate);
       id++;
     }
   }
 
+  planets[0].selected = true;
   return planets;
 }
 
@@ -83,18 +86,23 @@ const reducer = (state, action) => {
 
   switch(action.type) {
     case 'warp':
-      debugger;
       if (canWarp(player)) {
         const playerLocation = getRandomInt(50, 500);
         newState = {
           ...state,
           drones: warpDrones(drones, player, playerLocation),
           player: {...player, location: playerLocation, fuel: (player.fuel - player.warpCost)},
-          planets: generatePlanets(),
+          planets: generatePlanets(player),
         };
         return newState;
       }
       return state;
+    case 'select-planet':
+      newState = {
+        ...state,
+        planets: state.planets.map((p) => p.id === action.id ? {...p, selected: true } : {...p, selected: false })
+      };
+      return newState;
     case 'dispatch-drone':
       newState = {
         player,
@@ -115,6 +123,8 @@ const reducer = (state, action) => {
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { player, drones, planets } = state;
+  const selectedPlanet = planets.find((p) => p.selected);
 
   useInterval(() => {
     dispatch('tick')
@@ -125,33 +135,37 @@ function App() {
       <Grid container
             direction="row"
             justify="center"
-            alignItems="center"
+            alignItems="flex-start"
             spacing={2}
       >
         <Grid item xs={3}>
           <Box className="system-visualizer">
             <Brightness1 className="star" />
-            { state.planets.map(planet =>
+            { planets.map(planet =>
               <Planet key={planet.id}
-                      dispatchDrone={id => dispatch({ type: 'dispatch-drone', id: id, target: planet.location })}
-                      drones={state.drones}
+                      selectPlanet={() => dispatch({ type: 'select-planet', id: planet.id })}
+                      drones={drones}
                       {...planet} />)
             }
-            <Player drones={state.drones} {...state.player} />
+            <Player drones={drones} {...player} />
           </Box>
         </Grid>
         <Grid item xs={9}>
           <Box>
-            <CircularProgress variant="static" value={state.player.fuel / state.player.fuelCapacity * 100} />
+            <CircularProgress variant="static" value={player.fuel / player.fuelCapacity * 100} />
           </Box>
           <Box>
-            <Button variant="outlined" color="primary" disabled={!canWarp(state.player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
+            <Button variant="outlined" color="primary" disabled={!canWarp(player)} onClick={() => dispatch({ type: 'warp' })}>Warp</Button>
           </Box>
           <Box>
-            { state.drones.map(drone =>
-              <Button variant="outlined"
-                disabled={drone.location === state.player.location}
-                onClick={() => dispatch({ type: 'dispatch-drone', id: drone.id, target: state.player.location })}>
+            <PlanetData planet={selectedPlanet} drones={drones} dispatchDrone={(id, target) => dispatch({ type: 'dispatch-drone', id: id, target: target })}/>
+          </Box>
+          <Box>
+            { drones.map(drone =>
+              <Button key={drone.id}
+                variant="outlined"
+                disabled={drone.location === player.location}
+                onClick={() => dispatch({ type: 'dispatch-drone', id: drone.id, target: player.location })}>
                 {`Recall Drone ${drone.id}`}</Button>
             )}
           </Box>

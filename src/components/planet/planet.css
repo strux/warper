@@ -9,3 +9,7 @@ button.planet {
   width: 100%;
   height: 100%;
 }
+.planet.selected svg circle {
+  stroke: #00bcd4;
+  stroke-width: 2px;
+}

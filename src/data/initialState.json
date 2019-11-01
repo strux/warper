@@ -25,16 +25,22 @@
   "planets": [
     {
       "id": 1,
+      "charted": true,
+      "selected": true,
       "size": 80,
       "location": 100,
+      "distance": 100,
       "resources": {
         "fuel": 10
       }
     },
     {
       "id": 2,
+      "charted": true,
+      "selected": false,
       "size": 50,
       "location": 300,
+      "distance": 100,
       "resources": {
         "fuel": 10
       }

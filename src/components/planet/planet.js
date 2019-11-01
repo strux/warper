@@ -1,56 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Brightness1 from '@material-ui/icons/Brightness1';
 import './planet.css';
 
-export default function Planet({ id, location, size, drones, dispatchDrone }) {
+export default function Planet({ id, selected, location, size, drones, selectPlanet }) {
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const open = Boolean(anchorEl);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleItemClick = (id) => {
-    dispatchDrone(id);
-    handleClose();
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const probeMessage = (drone) => {
-    if (drone.target === location) return `drone ${drone.id} en route`;
-    else if (drone.target === null) return `Launch drone ${drone.id}`;
-    else if (drone.target !== null) return `Redirect drone ${drone.id}`;
+  const handleClick = () => {
+    selectPlanet();
   }
 
   return (
     <div>
       <IconButton id={id}
-                  className="planet"
+                  className={`planet${selected ? ' selected' : ''}`}
                   style={{ bottom: location, width: size, height: size }}
                   onClick={handleClick}>
         <Brightness1 />
       </IconButton>
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-      >
-        {drones.map(drone => (
-          <MenuItem key={drone.id} onClick={() => handleItemClick(drone.id)}>
-            {probeMessage(drone)}
-          </MenuItem>
-        ))}
-      </Menu>
     </div>
   );
 }
